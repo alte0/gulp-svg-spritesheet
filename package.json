@@ -7,44 +7,39 @@
     {
       "name": "Artem Malko",
       "email": "artem.malko@gmail.com"
-    }, {
+    },
+    {
       "name": "Darren Hall",
       "email": "hello@darrenhall.info"
     }
   ],
   "license": "MIT",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/artem-malko/gulp-svg-spritesheet.git"
   },
-
   "homepage": "https://github.com/artem-malko/gulp-svg-spritesheet",
   "bugs": {
     "url": "https://github.com/artem-malko/gulp-svg-spritesheet/issues"
   },
-
   "keywords": [
     "gulpplugin",
     "sprite",
     "svg"
   ],
-
   "engines": {
     "node": ">=0.10.28"
   },
-
   "devDependencies": {
     "gulp": "^3.8.9",
     "gulp-jshint": "^1.9.0",
     "gulp-svgmin": "^0.4.7"
   },
-
   "dependencies": {
-    "cheerio": "^0.19.0",
-    "gulp-util": "^3.0.1",
-    "mkdirp": "latest",
+    "cheerio": "^0.22.0",
+    "gulp-util": "^3.0.8",
+    "mkdirp": "0.5.1",
     "mustache": "^0.8.2",
-    "through2": "^0.6.3"
+    "through2": "^3.0.1"
   }
 }
