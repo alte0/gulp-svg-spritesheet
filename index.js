@@ -112,17 +112,23 @@ var spriteSVG = function(options) {
 
         // For each sprite
         for (var i in data.sprites) {
-            var sprite = data.sprites[i],
-                // Create, initialise and populate an SVG
-                $svg = $('<svg/>')
-                    .attr({
-                        'height': sprite.h,
-                        'viewBox': sprite.viewBox,
-                        'width': sprite.w,
-                        'x': Math.ceil(sprite.fit.x)+options.padding,
-                        'y': Math.ceil(sprite.fit.y)+options.padding
-                    })
-                    .append(sprite.file);
+            var sprite = data.sprites[i];
+            // Create, initialise and populate an SVG
+            var spriteAttr = {
+                'height': sprite.h,
+                'viewBox': sprite.viewBox,
+                'width': sprite.w,
+                'x': Math.ceil(sprite.fit.x)+options.padding,
+                'y': Math.ceil(sprite.fit.y)+options.padding
+            };
+
+            if (sprite.fill){
+                Object.assign(spriteAttr, {'fill': sprite.fill});
+            }
+
+            var $svg = $('<svg/>')
+                .attr(spriteAttr)
+                .append(sprite.file);
 
             // Check and set parent SVG width
             if(sprite.fit.x+sprite.w+options.padding>data.width) {
@@ -168,15 +174,21 @@ var spriteSVG = function(options) {
             sprite.y = y+options.padding;
 
             // Create, initialise and populate an SVG
+            var svgSpriteAttrs = {
+                'height': sprite.h,
+                'viewBox': sprite.viewBox,
+                'width': sprite.w,
+                'x': Math.ceil(sprite.x),
+                'y': Math.ceil(sprite.y)
+            };
+
+            if (sprite.fill) {
+                Object.assign(svgSpriteAttrs, {'fill': sprite.fill});
+            }
+
             var $svg = $('<svg/>')
-                    .attr({
-                        'height': sprite.h,
-                        'viewBox': sprite.viewBox,
-                        'width': sprite.w,
-                        'x': Math.ceil(sprite.x),
-                        'y': Math.ceil(sprite.y)
-                    })
-                    .append(sprite.file);
+                .attr(svgSpriteAttrs)
+                .append(sprite.file);
 
             // Round up coordinates
             sprite.h = Math.ceil(sprite.h);
@@ -249,6 +261,10 @@ var spriteSVG = function(options) {
                 viewBox: Math.ceil(coords[0])+" "+Math.ceil(coords[1])+" "+Math.ceil(coords[2])+" "+Math.ceil(coords[3]),
                 w: parseFloat(width)
             };
+
+        if ($file.attr('fill') !== undefined) {
+            Object.assign(sprite, {fill: $file.attr('fill')});
+        }
 
         // Add the sprite to our array
         data.sprites.push(sprite);
