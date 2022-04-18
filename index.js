@@ -1,6 +1,7 @@
 'use strict';
 
 var cheerio = require('cheerio'),
+    events = require('events'),
     fs = require('fs'),
     gutil = require('gulp-util'),
     mkdirp = require('mkdirp'),
@@ -76,9 +77,13 @@ var spriteSVG = function(options) {
             width: 0,
             imgName: options.imgName
         },
+        eventEmitter = new events.EventEmitter(),
         self,
         x = options.x,
         y = options.y;
+
+    // When a template file is loaded, render it
+    eventEmitter.on("loadedTemplate", renderTemplate);
 
     // Generate relative em/rem untis from pixels
     function pxToRelative(value) {
@@ -98,7 +103,7 @@ var spriteSVG = function(options) {
                 dest: dest
             };
 
-            renderTemplate(file, cb);
+            eventEmitter.emit("loadedTemplate", file, cb);
         });
     }
 
@@ -291,6 +296,7 @@ var spriteSVG = function(options) {
     // Render our template and then save the file
     function renderTemplate(file, cb) {
         var compiled = mustache.render(file.contents, file.data);
+
         mkdirp(path.dirname(file.dest), function(){
             fs.writeFile(file.dest, compiled, cb);
         });
